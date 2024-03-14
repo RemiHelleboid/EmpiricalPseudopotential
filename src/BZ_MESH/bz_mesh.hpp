@@ -75,13 +75,18 @@ class MeshBZ {
 
     void read_mesh_geometry_from_msh_file(const std::string& filename);
     void read_mesh_bands_from_msh_file(const std::string& filename);
-    void add_new_band_energies_to_vertices(const std::vector<double>& energies_at_vertices);
-    void compute_min_max_energies_at_tetras();
-    void compute_energy_gradient_at_tetras();
 
+    void example_anish();
+
+    const std::vector<Vertex>& get_list_vertices() const { return m_list_vertices; }
+    const std::vector<Tetra>&  get_list_elements() const { return m_list_tetrahedra; }
     std::size_t get_number_vertices() const { return m_list_vertices.size(); }
     std::size_t get_number_elements() const { return m_list_tetrahedra.size(); }
     double     get_volume() const { return m_total_volume; }
+
+    void add_new_band_energies_to_vertices(const std::vector<double>& energies_at_vertices);
+    void compute_min_max_energies_at_tetras();
+    void compute_energy_gradient_at_tetras();
 
     bool is_inside_mesh_geometry(const vector3& k) const;
     bool is_inside_mesh_geometry(const Vector3D<double>& k) const;
@@ -96,13 +101,12 @@ class MeshBZ {
         return std::make_pair(m_min_band[band_index], m_max_band[band_index]);
     }
 
-    const std::vector<Vertex>& get_list_vertices() const { return m_list_vertices; }
-    const std::vector<Tetra>&  get_list_elements() const { return m_list_tetrahedra; }
-
     double compute_mesh_volume() const;
     double compute_iso_surface(double iso_energy, int band_index) const;
     double compute_dos_at_energy_and_band(double iso_energy, int band_index) const;
     double compute_overlap_integral_impact_ionization_electrons(double energy);
+
+
 
     std::vector<std::vector<double>> compute_dos_band_at_band(int         band_index,
                                                               double      min_energy,

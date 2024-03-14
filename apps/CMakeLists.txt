@@ -26,6 +26,11 @@ target_link_libraries(elph.epm PUBLIC libepp lib_bzmesh)
 target_compile_features(elph.epm PRIVATE cxx_std_20)
 target_link_libraries(elph.epm PUBLIC MPI::MPI_CXX)
 
+add_executable(ExempleAnish.epm ExampleAnish.cpp)
+target_link_libraries(ExempleAnish.epm PUBLIC libepp lib_bzmesh)
+target_compile_features(ExempleAnish.epm PRIVATE cxx_std_20)
+target_link_libraries(ExempleAnish.epm PUBLIC MPI::MPI_CXX)
+
 if(USE_MPI_ACCELERATION)
   add_executable(mpiBandsOnBZ mpi_BandsOnBZ.cpp)
   target_link_libraries(mpiBandsOnBZ PUBLIC libepp Eigen3::Eigen)

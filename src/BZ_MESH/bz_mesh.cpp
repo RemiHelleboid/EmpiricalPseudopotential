@@ -197,6 +197,18 @@ void MeshBZ::compute_energy_gradient_at_tetras() {
     }
 }
 
+
+void MeshBZ::example_anish() {
+    std::cout << "Example Anish" << std::endl;
+
+    double total_energy_first_band = 0.0;
+    int index_band = 0;
+    for (auto&& vtx: m_list_vertices) {
+        total_energy_first_band += vtx.get_energy_at_band(index_band);
+    }
+    std::cout << "Total energy of band " << index_band << " is " << total_energy_first_band << std::endl;
+}
+
 double MeshBZ::compute_mesh_volume() const {
     double total_volume = 0.0;
     for (auto&& tetra : m_list_tetrahedra) {
