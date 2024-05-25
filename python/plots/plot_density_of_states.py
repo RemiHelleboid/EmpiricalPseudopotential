@@ -39,7 +39,7 @@ def plot_dos_per_band(filename, ax_plot=None, band_type="all"):
         axs.plot(energies, dos, lw=0.9 , label=f"{band_counter}")
     axs.legend(fontsize='x-small', title_fontsize='x-small', title="Band index", fancybox=True, ncol=2)
     axs.set_xlabel("Energy (eV)")
-    axs.set_ylabel("Density of states (a.u.)")
+    axs.set_ylabel("Density of states (eV$^{-1}$ m$^{-3}$)")
     axs.set_ylim(0.00, )
     if band_type == "conduction":
         axs.set_xlim(-1, )
@@ -76,7 +76,7 @@ def plot_dos_sum_bands(filename, ax_plot=None, band_type="all"):
     axs.plot(energies_plot, dos_total, c="darkblue")
     # axs.legend(fontsize='x-small', title_fontsize='x-small', title="Number\n of bands", fancybox=True)
     axs.set_xlabel("Energy (eV)")
-    axs.set_ylabel("Density of states (a.u.)")
+    axs.set_ylabel("Density of states (eV$^{-1}$ m$^{-3}$)")
     # axs.set_xlim(-6, 5)
     axs.set_ylim(0.00, )
     axs.set_xlim(min_linspace, max_linspace)

@@ -46,8 +46,8 @@
 
 #define MASTER 0
 
-inline void export_multiple_vector_to_csv(const std::string &                     filename,
-                                          const std::vector<std::string> &        header_columns,
+inline void export_multiple_vector_to_csv(const std::string                      &filename,
+                                          const std::vector<std::string>         &header_columns,
                                           const std::vector<std::vector<double>> &value_vector_of_vector) {
     if (value_vector_of_vector.empty()) {
         return;
@@ -112,12 +112,14 @@ int main(int argc, char *argv[]) {
     TCLAP::ValueArg<std::string> arg_material("m", "material", "Symbol of the material to use (Si, Ge, GaAs, ...)", true, "Si", "string");
     TCLAP::ValueArg<int>         arg_nb_energies("e", "nenergy", "Number of energies to compute", false, 250, "int");
     TCLAP::ValueArg<int>         arg_nb_bands("b", "nbands", "Number of bands to consider", false, 12, "int");
+    TCLAP::ValueArg<int>         arg_BZ_fold_nb("w", "wfold", "Division of the BZ (1=Full BZ, 2=Half, ..., 48=IW)", false, 1, "int");
     TCLAP::ValueArg<int>         arg_nb_threads("j", "nthreads", "number of threads to use.", false, 1, "int");
     TCLAP::SwitchArg plot_with_python("P", "plot", "Call a python script after the computation to plot the band structure.", false);
     cmd.add(plot_with_python);
     cmd.add(arg_mesh_file);
     cmd.add(arg_material);
     cmd.add(arg_nb_bands);
+    cmd.add(arg_BZ_fold_nb);
     cmd.add(arg_nb_energies);
     cmd.add(arg_nb_threads);
 
@@ -137,8 +139,11 @@ int main(int argc, char *argv[]) {
 
     const std::string mesh_band_input_file = arg_mesh_file.getValue();
     bz_mesh::MeshBZ   my_bz_mesh{current_material};
+
     my_bz_mesh.read_mesh_geometry_from_msh_file(mesh_band_input_file);
     my_bz_mesh.read_mesh_bands_from_msh_file(mesh_band_input_file);
+    int BZ_fold_factor = arg_BZ_fold_nb.getValue();
+    my_bz_mesh.set_folding_factor(BZ_fold_factor);
 
     std::size_t         number_bands = my_bz_mesh.get_number_bands();
     std::vector<int>    list_bands;

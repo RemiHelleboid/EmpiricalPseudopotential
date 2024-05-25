@@ -85,7 +85,6 @@ int main(int argc, char* argv[]) {
     cmd.add(arg_enable_nonlocal_correction);
     cmd.add(arg_enable_soc);
     cmd.add(arg_cond_band_zero);
-
     cmd.parse(argc, argv);
 
     EmpiricalPseudopotential::Materials materials;

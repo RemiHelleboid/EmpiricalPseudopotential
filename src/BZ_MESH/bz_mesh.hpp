@@ -82,31 +82,46 @@ class MeshBZ {
      */
     std::vector<double> m_max_band{};
 
+    /**
+     * @brief Total volume of the BZ mesh.
+     *
+     */
     double m_total_volume = 0.0;
+
+    /**
+     * @brief The folding factor of the BZ mesh.
+     * 1 = Full BZ mesh, 2 = Half BZ mesh, 3 = Third BZ mesh, etc.
+     * 48 = 1/48 of the BZ mesh (Irreducible BZ mesh for FCC lattice).
+     *
+     *
+     */
+    int m_folding_factor = 1;
 
  public:
     MeshBZ() = default;
     MeshBZ(const EmpiricalPseudopotential::Material& material) : m_material(material){};
     MeshBZ(const MeshBZ&) = default;
 
+    void set_folding_factor(int folding_factor) { m_folding_factor = folding_factor; }
 
     vector3 get_vertex_position(std::size_t idx_vtx) const { return m_list_vertices[idx_vtx].get_position(); }
 
-    vector3             get_center() const { return m_center; }
-    void                shift_bz_center(const vector3& shift);
-
+    vector3 get_center() const { return m_center; }
+    void    shift_bz_center(const vector3& shift);
 
     bbox_mesh           compute_bounding_box() const;
     void                build_search_tree();
-    std::vector<Tetra*> get_list_p_tetra()  {
+    std::vector<Tetra*> get_list_p_tetra() {
         std::vector<Tetra*> tetra_pointers;
         tetra_pointers.reserve(m_list_tetrahedra.size());
-        std::transform(m_list_tetrahedra.begin(), m_list_tetrahedra.end(), std::back_inserter(tetra_pointers), [](Tetra& tetra) { return &tetra; });
+        std::transform(m_list_tetrahedra.begin(), m_list_tetrahedra.end(), std::back_inserter(tetra_pointers), [](Tetra& tetra) {
+            return &tetra;
+        });
         return tetra_pointers;
     }
-    Tetra*              find_tetra_at_location(const vector3& location) const;
+    Tetra* find_tetra_at_location(const vector3& location) const;
 
-    void read_mesh_geometry_from_msh_file(const std::string& filename, bool normalize_by_fourier_factor=true);
+    void read_mesh_geometry_from_msh_file(const std::string& filename, bool normalize_by_fourier_factor = true);
     void read_mesh_bands_from_msh_file(const std::string& filename);
     void add_new_band_energies_to_vertices(const std::vector<double>& energies_at_vertices);
     void compute_min_max_energies_at_tetras();
