@@ -253,7 +253,7 @@ int main(int argc, char *argv[]) {
             list_header.push_back("dos_band_" + std::to_string(index_band));
         }
         std::filesystem::path in_path(mesh_band_input_file);
-        std::string           out_file_bands = "DOS_MPI_" + in_path.stem().replace_extension("").string();
+        std::string           out_file_bands = in_path.stem().replace_extension("").string();
         std::cout << "Exporting DOS values to file: " << out_file_bands << std::endl;
         export_multiple_vector_to_csv(out_file_bands + ".csv", list_header, dos_at_bands);
 
@@ -270,5 +270,5 @@ int main(int argc, char *argv[]) {
     }
 
     MPI_Finalize();
-    return 0;
+    return EXIT_SUCCESS;
 }

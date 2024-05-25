@@ -263,6 +263,8 @@ double MeshBZ::compute_dos_at_energy_and_band(double iso_energy, int band_index)
     for (auto&& tetra : m_list_tetrahedra) {
         total_dos += tetra.compute_tetra_dos_energy_band(iso_energy, band_index);
     }
+    const double factor = 1.0 / pow(2.0 * M_PI, 3.0);
+    total_dos *= factor;
     return total_dos;
 }
 
